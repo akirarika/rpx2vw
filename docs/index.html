@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ViewUI example</title>
+    <link rel="stylesheet" type="text/css" href="http://unpkg.com/view-design/dist/styles/iview.css">
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <script type="text/javascript" src="http://unpkg.com/view-design/dist/iview.min.js"></script>
+    <style>
+        #app {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgba(68, 138, 255, 0.05);
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vw;
+            max-width: 400px;
+            max-height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <Card shadow>
+                <div style="text-align:center">
+                    <img src="./img.gif" style="width: 120px;">
+                    <p>
+                        Unit Converter of RPX & VW
+                    </p>
+                    <br />
+                    <i-form :label-width="30">
+                        <form-item label="rpx">
+                            <i-input v-model="rpx" placeholder="750"></i-input>
+                        </form-item>
+                    </i-form>
+                    <i-form :label-width="30">
+                        <form-item label="vw">
+                            <i-input v-model="vw" placeholder="100"></i-input>
+                        </form-item>
+                    </i-form>
+                    <i-button @click="switchMode">{{ mode ? 'mode: rpx2vw' : 'mode: vw2rpx' }}</i-button>
+                </div>
+            </Card>
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                visible: false,
+                rpx: '',
+                vw: '',
+                mode: true,
+            },
+            watch: {
+                rpx(rpx) {
+                    if (!this.mode) return
+                    return this.vw = (rpx / 750 * 100).toFixed(2)
+                },
+                vw(vw) {
+                    if (this.mode) return
+                    return this.rpx = (vw / 100 * 750).toFixed(0)
+                }
+            },
+            methods: {
+                switchMode() {
+                    return this.mode = !this.mode
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
